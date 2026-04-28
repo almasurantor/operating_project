@@ -31,7 +31,6 @@ void metrics_print(const perf_metrics_t *pm) {
 
     long peak_rss = pm->ru_end.ru_maxrss;
 #ifdef __APPLE__
-    /* macOS reports ru_maxrss in bytes, Linux in KB */
 #else
     peak_rss *= 1024;
 #endif

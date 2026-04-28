@@ -1,0 +1,7 @@
+*.o
+shell
+commands/filediffadvanced/filediffadvanced
+commands/filecrypt/filecrypt
+commands/loganalyzer/loganalyzer
+commands/timedexec/timedexec
+*.pdf

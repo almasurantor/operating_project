@@ -82,7 +82,6 @@ int compute_diff(const line_t *lines1, int count1, const line_t *lines2, int cou
         memset(curr, 0, sizeof(int) * (size_t)c);
     }
 
-    /* We need the full table to backtrack, so rebuild with full storage */
     free(prev);
     free(curr);
 
@@ -140,7 +139,6 @@ int compute_diff(const line_t *lines1, int count1, const line_t *lines2, int cou
         }
     }
 
-    /* Reverse the result (we built it backwards) */
     for (int a = 0, b = n - 1; a < b; a++, b--) {
         diff_entry_t tmp = result[a];
         result[a] = result[b];
@@ -162,7 +160,6 @@ void print_unified(FILE *out, const diff_entry_t *edits, int num_edits,
 
     int idx = 0;
     while (idx < num_edits) {
-        /* Find next change */
         int change_start = -1;
         for (int k = idx; k < num_edits; k++) {
             if (edits[k].op != DIFF_EQUAL) {
