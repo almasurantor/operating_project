@@ -11,16 +11,16 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(cmd, "timedexec") == 0) {
         printf("timedexec not implemented yet\n");
-    } 
+    }
     else if (strcmp(cmd, "loganalyzer") == 0) {
         printf("loganalyzer not implemented yet\n");
-    } 
+    }
     else if (strcmp(cmd, "filecrypt") == 0) {
         printf("filecrypt not implemented yet\n");
-    } 
+    }
     else if (strcmp(cmd, "filediffadvanced") == 0) {
         printf("filediffadvanced not implemented yet\n");
-    } 
+    }
     else {
         printf("Unknown command: %s\n", cmd);
     }
