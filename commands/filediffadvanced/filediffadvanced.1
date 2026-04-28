@@ -1,0 +1,104 @@
+.TH FILEDIFFADVANCED 1 "April 2026" "Version 1.0" "User Commands"
+.SH NAME
+filediffadvanced \- compare files for textual and binary differences with performance metrics
+.SH SYNOPSIS
+.B filediffadvanced
+[\fIOPTIONS\fR] \fIFILE1\fR \fIFILE2\fR
+.SH DESCRIPTION
+.B filediffadvanced
+compares two files for textual or binary differences using memory-mapped I/O
+(mmap) for high-speed access. It supports unified diff output, side-by-side
+display, multithreaded binary comparison using pthreads, and detailed
+performance metrics including wall time, CPU time, and throughput.
+.PP
+If neither \fB\-t\fR nor \fB\-b\fR is specified, the program auto-detects
+the file type by scanning for NUL bytes.
+.SH OPTIONS
+.TP
+.BR \-t ", " \-\-text
+Force text comparison mode (line-by-line diff using LCS algorithm).
+.TP
+.BR \-b ", " \-\-binary
+Force binary comparison mode (byte-by-byte with hex offset reporting).
+.TP
+.BR \-u ", " \-\-unified
+Unified diff output format (default for text mode).
+.TP
+.BR \-y ", " \-\-side\-by\-side
+Side-by-side diff output format.
+.TP
+.BR \-q ", " \-\-brief
+Only report whether files differ, without showing details.
+.TP
+.BR \-p ", " \-\-parallel
+Enable multithreaded binary comparison using pthreads.
+.TP
+.BR \-j " " \fIN\fR ", " \-\-threads= \fIN\fR
+Number of threads for parallel mode (default: 4, max: 64).
+.TP
+.BR \-m ", " \-\-metrics
+Print performance metrics (wall time, CPU time, throughput, memory) to stderr.
+.TP
+.BR \-o " " \fIFILE\fR ", " \-\-output= \fIFILE\fR
+Write diff output to FILE instead of stdout.
+.TP
+.BR \-c " " \fIN\fR ", " \-\-context= \fIN\fR
+Number of context lines around changes in unified diff (default: 3).
+.TP
+.BR \-v ", " \-\-verbose
+Print additional information such as file sizes and detected mode.
+.TP
+.BR \-h ", " \-\-help
+Display help message and exit.
+.TP
+.BR \-V ", " \-\-version
+Display version and exit.
+.SH EXIT STATUS
+.TP
+.B 0
+Files are identical.
+.TP
+.B 1
+Files differ.
+.TP
+.B 2
+An error occurred.
+.SH SIGNALS
+.TP
+.B SIGINT
+Gracefully interrupts the comparison and exits.
+.TP
+.B SIGUSR1
+When received during a binary comparison, prints current progress to stderr.
+.SH EXAMPLES
+Compare two text files with unified diff:
+.nf
+    filediffadvanced -t -m file1.txt file2.txt
+.fi
+.PP
+Compare binary files using 8 threads with metrics:
+.nf
+    filediffadvanced -b -p -j 8 --metrics big1.bin big2.bin
+.fi
+.PP
+Side-by-side text comparison:
+.nf
+    filediffadvanced -y old.c new.c
+.fi
+.PP
+Quick check if files differ:
+.nf
+    filediffadvanced -q a.dat b.dat
+.fi
+.SH SYSTEM CALLS
+This program uses the following system calls:
+mmap(2), munmap(2), madvise(2), open(2), close(2), fstat(2),
+sigaction(2), clock_gettime(2), getrusage(2), pthread_create(3),
+pthread_join(3), pthread_mutex_lock(3), getopt_long(3).
+.SH SEE ALSO
+.BR diff (1),
+.BR cmp (1),
+.BR mmap (2),
+.BR pthreads (7)
+.SH AUTHOR
+Tanvir Islam
