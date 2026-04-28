@@ -47,11 +47,29 @@ static void print_help(void) {
 
 static int parse_input(char *input, char **args) {
     int count = 0;
-    char *token = strtok(input, " \t\n");
-    while (token && count < MAX_ARGS - 1) {
-        args[count++] = token;
-        token = strtok(NULL, " \t\n");
+    char *p = input;
+
+    while (*p && count < MAX_ARGS - 1) {
+        while (*p == ' ' || *p == '\t' || *p == '\n') p++;
+        if (*p == '\0') break;
+
+        if (*p == '"') {
+            p++;
+            args[count++] = p;
+            while (*p && *p != '"') p++;
+            if (*p == '"') *p++ = '\0';
+        } else if (*p == '\'') {
+            p++;
+            args[count++] = p;
+            while (*p && *p != '\'') p++;
+            if (*p == '\'') *p++ = '\0';
+        } else {
+            args[count++] = p;
+            while (*p && *p != ' ' && *p != '\t' && *p != '\n') p++;
+            if (*p) *p++ = '\0';
+        }
     }
+
     args[count] = NULL;
     return count;
 }
